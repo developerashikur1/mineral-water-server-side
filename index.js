@@ -27,6 +27,20 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
             client.connect();
             const database = client.db('mineral_water');
             const serviceCollection = database.collection('water_service');
+            const teamsCollection = database.collection('teams');
+
+        // Get Teams Data
+            app.get('/teams',async(req, res)=>{
+                const result = await teamsCollection.find({}).toArray();
+                res.json(result)
+            });
+
+
+        // Get Services for home page
+            app.get('/water_service', async(req, res)=>{
+                const result = await serviceCollection.find({}).toArray();
+                res.json(result)
+            })
 
 
         }
@@ -37,13 +51,14 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 }
 run().catch(console.dir);
 
-
-
+  
 // port on
 app.get('/', (req, res)=>{
     res.send('Running my crud server')
 });
 
 app.listen(port, ()=>{
-    console.log('running server port on')
+    console.log('firebase')
+
+
 })
